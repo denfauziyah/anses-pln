@@ -29,8 +29,8 @@ def preprocess_text(text):
 with open('komenpln.csv', 'r') as f:
     data = f.readlines()
 # Pisahkan teks dan label
-texts = [line.strip().split('\t')[0] for line in data]
-labels = [line.strip().split('\t')[1] for line in data]
+texts = [line.strip().split(',')[0] for line in data]
+labels = [line.strip().split(',')[1] for line in data]
 
 # Pra-proses teks
 processed_texts = [preprocess_text(text) for text in texts]
