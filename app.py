@@ -1,5 +1,5 @@
 import nltk
-from textblob import TextBlob
+from vadersentiment import SentimentIntensityAnalyzer
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
@@ -11,8 +11,9 @@ st.title('Sentiment Analysis')
 text = st.text_area('Enter text')
 
 if text:
-    blob = TextBlob(text)
-    Sentiment = blob.sentiment.polarity
+    analyzer = SentimentIntensityAnalyzer()
+    scores = analyzer.polarity_scores(text)
+    Sentiment = scores['compound']
     if Sentiment > 0:
         st.write('Positive')
     elif Sentiment < 0:
