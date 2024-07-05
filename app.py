@@ -1,6 +1,3 @@
-pip install -q streamlit
-pip install nltk textblob
-
 import nltk
 from textblob import TextBlob
 
