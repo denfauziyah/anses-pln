@@ -15,7 +15,8 @@ def preprocess_text(text):
     text = text.lower()
     tokens = word_tokenize(text)
     tokens = [stemmer.stem(token) for token in tokens]
-    tokens = [token for token in tokens if token not in stopword_remover.get_stop_words()]
+    stop_words = stopword_remover.get_stop_words()
+    tokens = [token for token in tokens if token not in stop_words]
     return " ".join(tokens)
 
 # Fungsi untuk analisis sentimen (Anda perlu mengimplementasikan logika ini)
