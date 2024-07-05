@@ -4,6 +4,10 @@ nltk.download('punkt')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 from nltk.tokenize import word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 # Buat objek stemmer dan stopword remover
 factory = StemmerFactory()
@@ -21,17 +25,37 @@ def preprocess_text(text):
             filtered_tokens.append(token)
     tokens = filtered_tokens
     return " ".join(tokens)
+# Muat dataset (ganti dengan path ke dataset Anda)
+with open('path/to/komenpln.csv', 'r') as f:
+    data = f.readlines()
+# Pisahkan teks dan label
+texts = [line.strip().split('\t')[0] for line in data]
+labels = [line.strip().split('\t')[1] for line in data]
 
-# Fungsi untuk analisis sentimen (Anda perlu mengimplementasikan logika ini)
+# Pra-proses teks
+processed_texts = [preprocess_text(text) for text in texts]
+
+# Vektorisasi teks menggunakan TF-IDF
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(processed_texts)
+# Bagi dataset menjadi set pelatihan dan pengujian
+X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.2, random_state=42)
+
+# Latih model Naive Bayes
+model = MultinomialNB()
+model.fit(X_train, y_train)
+
+# Evaluasi model
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print('Akurasi model:', accuracy)
+
+# Fungsi untuk analisis sentimen
 def analyze_sentiment(text):
-    # Implementasikan logika analisis sentimen di sini, misalnya:
-    # - Menggunakan lexicon sentimen
-    # - Menggunakan model machine learning yang dilatih pada dataset sentimen bahasa Indonesia
-    # - Menggunakan layanan API analisis sentimen
-    # ...
-    # Kembalikan skor sentimen (misalnya, -1 untuk negatif, 0 untuk netral, 1 untuk positif)
-    return 0  # Ganti dengan hasil analisis sentimen Anda
-
+    processed_text = preprocess_text(text)
+    vectorized_text = vectorizer.transform([processed_text])
+    prediction = model.predict(vectorized_text)[0]
+    return prediction
 # Tampilan aplikasi Streamlit
 st.title('Aplikasi Analisis Sentimen')
 
