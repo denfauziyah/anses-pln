@@ -1,23 +1,43 @@
-import nltk
-from vadersentiment import SentimentIntensityAnalyzer
-
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-
 import streamlit as st
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
+from nltk.tokenize import word_tokenize
 
-st.title('Sentiment Analysis')
+# Buat objek stemmer dan stopword remover
+factory = StemmerFactory()
+stemmer = factory.create_stemmer()
+stopword_remover = StopWordRemoverFactory().create_stop_word_remover()
 
-text = st.text_area('Enter text')
+# Fungsi untuk pra-pemrosesan teks
+def preprocess_text(text):
+    text = text.lower()
+    tokens = word_tokenize(text)
+    tokens = [stemmer.stem(token) for token in tokens]
+    tokens = [token for token in tokens if token not in stopword_remover.get_stop_words()]
+    return " ".join(tokens)
+
+# Fungsi untuk analisis sentimen (Anda perlu mengimplementasikan logika ini)
+def analyze_sentiment(text):
+    # Implementasikan logika analisis sentimen di sini, misalnya:
+    # - Menggunakan lexicon sentimen
+    # - Menggunakan model machine learning yang dilatih pada dataset sentimen bahasa Indonesia
+    # - Menggunakan layanan API analisis sentimen
+    # ...
+    # Kembalikan skor sentimen (misalnya, -1 untuk negatif, 0 untuk netral, 1 untuk positif)
+    return 0  # Ganti dengan hasil analisis sentimen Anda
+
+# Tampilan aplikasi Streamlit
+st.title('Aplikasi Analisis Sentimen')
+
+text = st.text_area('Masukkan teks di sini:')
 
 if text:
-    analyzer = SentimentIntensityAnalyzer()
-    scores = analyzer.polarity_scores(text)
-    Sentiment = scores['compound']
-    if Sentiment > 0:
-        st.write('Positive')
-    elif Sentiment < 0:
-        st.write('Negative')
-    else:
-        st.write('Neutral')
+    processed_text = preprocess_text(text)
+    sentiment = analyze_sentiment(processed_text)
 
+    if sentiment > 0:
+        st.write('Sentimen: Positif')
+    elif sentiment < 0:
+        st.write('Sentimen: Negatif')
+    else:
+        st.write('Sentimen: Netral')
