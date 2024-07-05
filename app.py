@@ -55,6 +55,7 @@ def analyze_sentiment(text):
     processed_text = preprocess_text(text)
     vectorized_text = vectorizer.transform([processed_text])
     prediction = model.predict(vectorized_text)[0]
+    print("Prediksi sentimen:", prediction)
     return prediction
 # Tampilan aplikasi Streamlit
 st.title('Aplikasi Analisis Sentimen')
