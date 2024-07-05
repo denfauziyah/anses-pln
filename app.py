@@ -17,7 +17,7 @@ def preprocess_text(text):
     tokens = [stemmer.stem(token) for token in tokens]
     filtered_tokens = []
     for token in tokens:
-    if not stopword_remover.remove(token):  # Gunakan remove() untuk memeriksa apakah token adalah stop word
+        if not stopword_remover.remove(token):  # Gunakan remove() untuk memeriksa apakah token adalah stop word
             filtered_tokens.append(token)
     tokens = filtered_tokens
     return " ".join(tokens)
