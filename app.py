@@ -1,4 +1,6 @@
 import streamlit as st
+import nltk
+nltk.download('punkt')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 from nltk.tokenize import word_tokenize
