@@ -26,7 +26,7 @@ def preprocess_text(text):
     tokens = filtered_tokens
     return " ".join(tokens)
 # Muat dataset (ganti dengan path ke dataset Anda)
-with open('komenpln.csv', 'r') as f:
+with open('clean_komenpln.csv', 'r') as f:
     data = f.readlines()
 # Pisahkan teks dan label
 texts = [line.strip().split(',')[0] for line in data]
