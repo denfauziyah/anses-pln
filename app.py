@@ -65,6 +65,7 @@ text = st.text_area('Masukkan teks di sini:')
 if text:
     processed_text = preprocess_text(text)
     sentiment = analyze_sentiment(processed_text)
+    sentiment = float(sentiment) 
 
     if sentiment > 0:
         st.write('Sentimen: Positif')
