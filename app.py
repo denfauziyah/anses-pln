@@ -1,6 +1,6 @@
 import streamlit as st
 import nltk
-nltk.download('punkt')
+nltk.download('punkt_tab')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 from nltk.tokenize import word_tokenize
